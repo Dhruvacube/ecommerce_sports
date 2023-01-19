@@ -86,6 +86,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'main.apps.MainConfig',
+    'accoubts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -275,3 +277,16 @@ else:
     
 if bool(int(getattr(envConfig, 'LOGGING', 0))):
     from .django_logging import LOGGING
+    import logging
+    logging.config.dictConfig(LOGGING)
+
+EMAIL_PORT = 587
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = token_get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = token_get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = "post_office.EmailBackend"
+POST_OFFICE = {
+    "CELERY_ENABLED": False,
+    "RENDER_ON_DELIVERY": True,
+}
