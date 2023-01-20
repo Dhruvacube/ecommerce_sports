@@ -86,8 +86,9 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'theme.apps.ThemeConfig',
     'main.apps.MainConfig',
-    'accoubts.apps.AccountsConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,6 +98,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'django.contrib.postgres',
     "django_admin_listfilter_dropdown",
+    "post_office",
+    "tailwind",
     "compressor"
 ]
 
@@ -195,9 +198,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
 STATIC_ROOT = BASE_DIR/ "static"
 MEDIA_ROOT = BASE_DIR/ "media"
@@ -290,3 +293,7 @@ POST_OFFICE = {
     "CELERY_ENABLED": False,
     "RENDER_ON_DELIVERY": True,
 }
+
+USE_THOUSAND_SEPARATOR = True
+AUTH_USER_MODEL = "accounts.User"
+TAILWIND_APP_NAME = 'theme'

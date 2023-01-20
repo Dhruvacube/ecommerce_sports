@@ -1,5 +1,3 @@
-import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
@@ -74,7 +72,6 @@ class User(AbstractUser):
                             validators=[validate_city])
     state = models.CharField(_("state"), max_length=250)
     country = models.CharField(_("country"), max_length=250, null=True)
-    unique_id = models.UUIDField(default=uuid.uuid4)
     zip_code = models.CharField(_("zip code"),
                                 max_length=6,
                                 validators=[validate_zip])
@@ -82,4 +79,4 @@ class User(AbstractUser):
                                        max_length=250)
 
     class Meta:
-        unique_together = ("email")
+        unique_together = ("email",)
