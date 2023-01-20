@@ -1,3 +1,4 @@
+{% load compress %}
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +7,9 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% compress css %}
 		{% tailwind_css %}
+		{% endcompress %}
 	</head>
 
 	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
@@ -15,5 +18,6 @@
 				<h1 class="text-5xl">Django + Tailwind = ❤️</h1>
 			</section>
 		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
 	</body>
 </html>
