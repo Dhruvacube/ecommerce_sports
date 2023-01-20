@@ -1,4 +1,7 @@
+import ast
 import functools
+import secrets
+import string
 
 from asgiref.sync import sync_to_async
 from django.conf import settings
@@ -23,7 +26,6 @@ from post_office import mail
 from post_office.models import EmailTemplate
 
 from main.tasks import mail_queue
-from referral.models import Referral
 
 from .forms import (
     EditProfileForm,
@@ -73,44 +75,43 @@ class PasswordResetDoneViews(PasswordResetDoneView):
 
 
 @sync_to_async
-@login_required
 def view_profile(request):
-    if request.method == "POST":
-        form = EditProfileForm(request.POST,
-                               instance=request.user,
-                               admin=False)
+    # if request.method == "POST":
+    #     form = EditProfileForm(request.POST,
+    #                            instance=request.user,
+    #                            admin=False)
 
-        if form.is_valid():
-            user = form.save(commit=False)
-            referral = request.POST.get("referral_code")
-            if len(referral) == 0 or referral in [None, ""]:
-                user.referral_code = None
-            else:
-                if Referral.objects.filter(referral_code=referral).exists():
-                    request.user.referral_code = Referral.objects.filter(
-                        referral_code=referral).get()
-                else:
-                    messages.warning(
-                        request,
-                        f"<strong>{referral}</strong> Referral Code does not exists",
-                    )
+    #     if form.is_valid():
+    #         user = form.save(commit=False)
+    #         referral = request.POST.get("referral_code")
+    #         if len(referral) == 0 or referral in [None, ""]:
+    #             user.referral_code = None
+    #         else:
+    #             if Referral.objects.filter(referral_code=referral).exists():
+    #                 request.user.referral_code = Referral.objects.filter(
+    #                     referral_code=referral).get()
+    #             else:
+    #                 messages.warning(
+    #                     request,
+    #                     f"<strong>{referral}</strong> Referral Code does not exists",
+    #                 )
 
-            messages.success(
-                request,
-                "Your <strong>Profile</strong> has been update successfully !")
-            form.save(commit=True)
-            return redirect(reverse("view_profile"))
-        if not form.errors:
-            messages.error(request,
-                           "Please correct the errors mentioned below!")
+    #         messages.success(
+    #             request,
+    #             "Your <strong>Profile</strong> has been update successfully !")
+    #         form.save(commit=True)
+    #         return redirect(reverse("view_profile"))
+    #     if not form.errors:
+    #         messages.error(request,
+    #                        "Please correct the errors mentioned below!")
 
-    else:
-        form = EditProfileForm(instance=request.user, admin=False)
+    # else:
+    #     form = EditProfileForm(instance=request.user, admin=False)
     return render(
         request,
         "accounts/signup_and_different_template.html",
         {
-            "form": form,
+            # "form": form,
             "heading": "Update Profile",
             "title": "Update Profile",
             "view_profile": True,
@@ -158,7 +159,6 @@ def user_logout(request):
 
 
 @sync_to_async
-@new_session_message
 def loginform(request):
     if request.method == "POST":
         form = LoginForm(request=request, data=request.POST)
@@ -202,12 +202,95 @@ def loginform(request):
 
 
 @sync_to_async
-@new_session_message
 def signup(request):
     current_site = get_current_site(request)
-    if request.method == "POST":
-        form = SignupForm(request.POST)
+    # if request.method == "POST":
+    #     form = SignupForm(request.POST)
 
-        if form.is_valid():
+    #     if form.is_valid():
 
-            def generate_code(n: int = 7):
+    #         def generate_code(n: int = 7):
+    #             return "".join(
+    #                 secrets.choice(string.ascii_letters + string.digits +
+    #                                str(secrets.randbits(7)))
+    #                 for i in range(n)).upper()
+
+    #         username = generate_code()
+    #         password = generate_code(10)
+    #         data = form.cleaned_data
+    #         data.update({
+    #             "username": username,
+    #             "password": password,
+    #             "is_active": True,
+    #             "address1": data.get("address"),
+    #         })
+    #         try:
+    #             del data["address"]
+    #         except:
+    #             pass
+    #         user = User.objects.create_user(**data)
+    #         referral = request.POST.get("referral_code")
+    #         if len(referral) == 0 or referral in [None, ""]:
+    #             user.referral_code = None
+    #         elif Referral.objects.filter(referral_code=referral).exists():
+    #             user.referral_code = Referral.objects.filter(
+    #                 referral_code=referral).get()
+    #         else:
+    #             messages.warning(
+    #                 request,
+    #                 f"<strong>{referral}</strong> Referral Code does not exists",
+    #             )
+    #         user.save()
+    #         to_email = form.cleaned_data.get("email")
+    #         ctx = {
+    #             "user": user,
+    #             "domain": current_site.domain,
+    #             "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+    #             "token": account_activation_token.make_token(user),
+    #             "username": username,
+    #             "password": password,
+    #             "protocol": "https" if request.is_secure() else "http",
+    #         }
+    #         if not EmailTemplate.objects.filter(name="register_mail").exists():
+    #             message = render_to_string("accounts/register_mail.html")
+    #             mail_subject = "Thanks for Registering for TGL-2.0"
+    #             EmailTemplate.objects.create(
+    #                 name="register_mail",
+    #                 description="Thank you E-Mail Template",
+    #                 subject=mail_subject,
+    #                 html_content=message,
+    #             )
+    #         mail.send(
+    #             to_email,
+    #             settings.EMAIL_HOST_USER,
+    #             template="register_mail",
+    #             context=ctx,
+    #         )
+    #         mail_queue.delay()
+    #         messages.success(
+    #             request,
+    #             f"Account created, please see your mail {to_email} for the instructions on how to proceed further!, <br/> Check {to_email} , To get your <strong>username</username> and <strong>password</password>",
+    #         )
+    #         return redirect(reverse("make_order"))
+    #     message_error_list = []
+    #     if form.errors.as_data():
+    #         for i in form.errors.as_data():
+    #             message = "\n".join(form.errors.as_data()[i][0].messages)
+    #             message_error_list.append(message)
+    #         for i in message_error_list:
+    #             messages.error(request, i)
+    # referral_code = False
+    # if bool(request.GET.get("referral")):
+    #     referral_code = request.GET.get("referral")
+    form = SignupForm()
+    return render(
+        request,
+        "signup.html",
+        {
+            "title": "Register Now",
+            "form": form,
+            "link": f'{reverse("signin")}',
+            "display": True,
+            "no_display_messages": True,
+        },
+    )

@@ -1,23 +1,19 @@
-{% load compress %}
-{% load static tailwind_tags %}
+{% load static tailwind_tags %}{% load compress %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>Django Tailwind</title>
+    <title>{% block title %}{% endblock title %}</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{% compress css %}
 		{% tailwind_css %}
 		{% endcompress %}
 	</head>
 
-	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-		<div class="container mx-auto">
-			<section class="flex items-center justify-center h-screen">
-				<h1 class="text-5xl">Django + Tailwind = ❤️</h1>
-			</section>
-		</div>
+	<body>
+		{% block body %}
+		{% endblock body %}
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
 	</body>
 </html>

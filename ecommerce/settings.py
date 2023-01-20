@@ -220,8 +220,8 @@ CACHES = {
     }
 }
 
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = bool(int(token_get("COMPRESS_ENABLED", 1)))
+COMPRESS_OFFLINE = bool(int(token_get("COMPRESS_OFFLINE", 1)))
 COMPRESS_PRECOMPILERS = (
     ("text/x-sass", "django_libsass.SassCompiler"),
     ("text/x-scss", "django_libsass.SassCompiler"),
@@ -251,7 +251,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 BROKER_URL = token_get("REDIS_URL", "redis://localhost:6379")
-CELERY_RESULT_BACKEND = token_get("CLOUDAMQP_URL", "amqp://localhost")
+# CELERY_RESULT_BACKEND = token_get("CLOUDAMQP_URL", "amqp://localhost")
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
