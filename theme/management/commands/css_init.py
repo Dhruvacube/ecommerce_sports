@@ -18,5 +18,5 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 "Finished running `tailwind install` \n Now running `npm install flowbite` :)"
             ))
-        subprocess.run("npm", "install", "flowbite", cwd=settings.BASE_DIR/os.path.join(settings.TAILWIND_APP_NAME,"static_src"))
+        subprocess.run(["npm", "install", "flowbite"], cwd=(settings.BASE_DIR/os.path.join(settings.TAILWIND_APP_NAME,"static_src")), shell = True)
         self.stdout.write(self.style.SUCCESS("Finished...."))
