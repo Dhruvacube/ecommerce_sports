@@ -62,7 +62,7 @@ class User(AbstractUser):
         validators=[MinLengthValidator(10)],
         help_text=_("It should be +91 67xxx"),
     )
-    address1 = models.TextField(_("address 1"), validators=[validate_address])
+    address1 = models.TextField(_("address 1"), validators=[validate_address], null=True)
     address2 = models.TextField(_("address 2"),
                                 validators=[validate_address],
                                 blank=True,
@@ -70,13 +70,12 @@ class User(AbstractUser):
     city = models.CharField(_("city"),
                             max_length=500,
                             validators=[validate_city])
-    state = models.CharField(_("state"), max_length=250)
+    state = models.CharField(_("state"), max_length=250, null=True)
     country = models.CharField(_("country"), max_length=250, null=True)
     zip_code = models.CharField(_("zip code"),
                                 max_length=6,
-                                validators=[validate_zip])
-    university_name = models.CharField(_("University or College Name"),
-                                       max_length=250)
+                                validators=[validate_zip], null=True)
+    university_name = models.CharField(_("University or College Name"),max_length=250)
 
     class Meta:
         unique_together = ("email",)

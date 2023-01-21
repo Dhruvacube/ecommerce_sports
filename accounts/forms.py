@@ -58,6 +58,7 @@ def validate_address(value):
 
 
 class SignupForm(forms.Form):
+    username = forms.CharField(max_length=250)
     first_name = forms.CharField(max_length=250)
     last_name = forms.CharField(max_length=250)
     email = forms.EmailField(
@@ -72,6 +73,10 @@ class SignupForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
+        self.fields["username"].widget.attrs["placeholder"] = "Username"
+        self.fields["username"].widget.attrs["required"] = "true"
+        
         self.fields["first_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["first_name"].widget.attrs["placeholder"] = "First Name"
         self.fields["first_name"].widget.attrs["required"] = "true"
@@ -108,10 +113,10 @@ class LoginForm(AuthenticationForm):
         self.fields["username_email"].widget.attrs[
             "placeholder"
         ] = "Type in email or username"
-        self.fields["username_email"].widget.attrs["class"] = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+        self.fields["username_email"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
 
         self.fields["password"].widget.attrs["placeholder"] = "Type in your password"
-        self.fields["password"].widget.attrs["class"] = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+        self.fields["password"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
 
 
 UserModel = get_user_model()
@@ -121,12 +126,12 @@ class PasswordResetConfirmForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["new_password1"].widget.attrs["placeholder"] = "New Password"
-        self.fields["new_password1"].widget.attrs["class"] = "form-control mb-20"
+        self.fields["new_password1"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
 
         self.fields["new_password2"].widget.attrs[
             "placeholder"
         ] = "Retype the new password"
-        self.fields["new_password2"].widget.attrs["class"] = "form-control mb-20"
+        self.fields["new_password2"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
 
 
 class PasswordReset(PasswordResetForm):
@@ -163,7 +168,7 @@ class PasswordReset(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].widget.attrs["placeholder"] = "Email address"
-        self.fields["email"].widget.attrs["class"] = "form-control mb-20"
+        self.fields["email"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["email"].label = "Your account email address"
 
 
@@ -241,13 +246,13 @@ class PasswordChangeForms(PasswordChangeForm):
         super().__init__(*args, **kwargs)
 
         self.fields["old_password"].widget.attrs["placeholder"] = "Current Password"
-        self.fields["old_password"].widget.attrs["class"] = "form-control mb-20"
+        self.fields["old_password"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["old_password"].label = "Current Password"
 
         self.fields["new_password1"].widget.attrs["placeholder"] = "New Password"
-        self.fields["new_password1"].widget.attrs["class"] = "form-control mb-10 "
+        self.fields["new_password1"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
 
         self.fields["new_password2"].widget.attrs[
             "placeholder"
         ] = "Retype the new password"
-        self.fields["new_password2"].widget.attrs["class"] = "form-control mb-10 "
+        self.fields["new_password2"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"

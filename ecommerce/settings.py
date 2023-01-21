@@ -97,6 +97,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django.contrib.humanize",
     'django.contrib.postgres',
+    'easy_thumbnails',
+    'filer',
+    'mptt',
     "django_admin_listfilter_dropdown",
     "post_office",
     "tailwind",
@@ -297,3 +300,13 @@ POST_OFFICE = {
 USE_THOUSAND_SEPARATOR = True
 AUTH_USER_MODEL = "accounts.User"
 TAILWIND_APP_NAME = 'theme'
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
+STRIPE_API_SECRET_KEY = token_get('STRIPE_API_SECRET_KEY')
