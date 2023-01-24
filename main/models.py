@@ -17,6 +17,7 @@ class Category(models.Model):
     
 class Product(models.Model):
     product_id = models.CharField(default=random_id, max_length=10, primary_key=True)
+    name = models.CharField(max_length=150, help_text=_("Enter the name of the product"))
     category = models.ForeignKey(Category, related_name="product_category", on_delete=models.SET_NULL, null=True)
     image = FilerImageField(related_name="product_image", on_delete=models.RESTRICT)
     description = models.TextField(help_text=_("Enter the description of the product"))
@@ -34,6 +35,10 @@ class Order(models.Model):
     products = models.ManyToManyField(OrderedProduct, related_name="order_products")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="order_user", on_delete=models.CASCADE)
     payment = models.BooleanField(default=False)
+    
+class Cart(models.Model):
+    order = models.ForeignKey(Order, related_name="cart_order", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="cart_user", on_delete=models.CASCADE)
     
 class FeedBack(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedback_user", on_delete=models.CASCADE)

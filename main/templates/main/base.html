@@ -59,9 +59,14 @@
                             <li>
                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cart</a>
                             </li>
+                            {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'admin:index' %}" class="block px-4 py-2 text-emerald-500 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Admin</a>
+                            </li>
+                            {% endif %}
                         </ul>
                         <div class="py-1">
-                            <a href="{% url 'signout' %}" class="text-red-500	block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sign out</a>
+                            <a href="{% url 'signout' %}" class="text-red-500 font-bold	block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sign out</a>
                         </div>
                         {% else %}
                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">

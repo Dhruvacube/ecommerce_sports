@@ -6,6 +6,19 @@
 		<meta charset="UTF-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <!-- Favicons -->
+		 <link rel="apple-touch-icon" href="{% static 'img/selogo.png' %}" sizes="180x180">
+		 <link rel="icon" href="{% static 'img/selogo.png' %}" sizes="32x32" type="image/png">
+		 <link rel="icon" href="{% static 'img/selogo.png' %}" sizes="16x16" type="image/png">
+		 <link rel="mask-icon" href="{% static 'img/selogo.png' %}" color="#FFB320">
+		 <link rel="icon" href="{% static 'img/selogo.png' %}">
+
+		 <meta property="og:title" content="Sportzy">
+		 <meta property="og:type" content="Website">
+		 <meta property="og:image" content="{% static 'img/selogo.png' %}">
+		 <meta property="og:image:type" content="image/png" />
+		 <meta property="og:locale" content="en" />
+	 
 		{% compress css %}
 		{% tailwind_css %}
 		{% endcompress %}

@@ -178,10 +178,8 @@ class EditProfileForm(UserChangeForm):
             self.admin = kwargs["admin"]
             kwargs.pop("admin")
         super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
-        self.fields["username"].widget.attrs["required"] = "true"
-        self.fields["username"].widget.attrs["placeholder"] = "username"
-        self.fields["username"].widget.attrs["disabled"] = "true"
+        if "username" in self.fields:
+            self.fields.pop("username")
 
         self.fields["first_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["first_name"].widget.attrs["required"] = "true"

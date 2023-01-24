@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
 
-from .models import Order, OrderedProduct, Product
+from .models import Order, OrderedProduct, Product, Category
 
 
 @sync_to_async
@@ -13,13 +13,20 @@ def home(request):
         request, 
         "index.html",
         {
-            "products": Product.objects.all()
+            "products_dict": {i.name: Product.objects.filter(category=i).all()[:6] for i in Category.objects.iterator()},
+            "header": True
         }
     )
 
 @sync_to_async
-def about(request):
-    return render(request, "about.html")
+def product(request, product_id: str):
+    return render(
+        request, 
+        "productpage.html",
+        {
+            "product": Product.objects.get(product_id=product_id),
+        }
+    )
 
 @sync_to_async
 @require_POST
