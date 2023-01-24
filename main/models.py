@@ -15,6 +15,9 @@ class Category(models.Model):
     name = models.CharField(max_length=50, help_text=_("Enter the name of the category"))
     description = models.TextField(_("Description"), help_text=_("Enter the description of the category"), blank=True, null=True)
     
+    class Meta:
+        verbose_name_plural = _("Categories")
+    
 class Product(models.Model):
     product_id = models.CharField(default=random_id, max_length=10, primary_key=True)
     name = models.CharField(max_length=150, help_text=_("Enter the name of the product"))
@@ -41,12 +44,10 @@ class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="cart_user", on_delete=models.CASCADE)
     
 class FeedBack(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedback_user", on_delete=models.CASCADE)
+    email = models.EmailField(help_text=_("Enter the email"))
     feedback = models.TextField(help_text=_("Enter the feedback"))
-    rating = models.PositiveIntegerField(help_text=_("Enter the rating out of 5"),validators=[MaxValueValidator(5)])
-    order = models.ForeignKey(Order, related_name="feedback_order", on_delete=models.CASCADE)
 
-class Testimonials(models.Model):
+class Testimonial(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="testimonials_user", on_delete=models.CASCADE)
     feedback = models.TextField(help_text=_("Enter the feedback"))
     rating = models.PositiveIntegerField(help_text=_("Enter the rating out of 5"),validators=[MaxValueValidator(5)])
