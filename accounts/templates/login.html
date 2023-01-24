@@ -14,12 +14,17 @@
                     <input type="hidden" name="next" value="{{ next }}" />
                 {% endif %}
                 {% for field in form %}
+                    {{ field.errors }}
                     {{ field }}
                 {% endfor %}
                 <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button>
             </form>
         </div>
-
+        <div class="text-grey-dark mt-6">
+            <a class="no-underline border-b border-blue text-blue" href="{% url 'password_reset' %}">
+            Forgot Password
+        </a>.
+        </div>
         <div class="text-grey-dark mt-6">
             Don't have an account?
             <a class="no-underline border-b border-blue text-blue" href="{% url 'signup' %}">

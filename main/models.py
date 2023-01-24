@@ -17,7 +17,7 @@ class Category(models.Model):
     
 class Product(models.Model):
     product_id = models.CharField(default=random_id, max_length=10, primary_key=True)
-    category = models.ForeignKey(Category, related_name="product_category", on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, related_name="product_category", on_delete=models.SET_NULL, null=True)
     image = FilerImageField(related_name="product_image", on_delete=models.RESTRICT)
     description = models.TextField(help_text=_("Enter the description of the product"))
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text=_("Enter the price of the product in ruppess in per hour rate"))

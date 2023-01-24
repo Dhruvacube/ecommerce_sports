@@ -1,14 +1,16 @@
-{% load static tailwind_tags %}{% load compress %}
+{% load static tailwind_tags compress %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>{% block title %}{% endblock title %}</title>
+    <title>Sportzy | {% block title %}{% endblock title %}</title>
 		<meta charset="UTF-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{% compress css %}
 		{% tailwind_css %}
 		{% endcompress %}
+		{% block css %}
+		{% endblock css %}
 	</head>
 
 	<body>
@@ -16,4 +18,7 @@
 		{% endblock body %}
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
 	</body>
+
+	{% block footer %}
+	{% endblock footer %}
 </html>

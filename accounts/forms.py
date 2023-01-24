@@ -178,45 +178,58 @@ class EditProfileForm(UserChangeForm):
             self.admin = kwargs["admin"]
             kwargs.pop("admin")
         super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["class"] = "form-control"
+        self.fields["username"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["username"].widget.attrs["required"] = "true"
+        self.fields["username"].widget.attrs["placeholder"] = "username"
+        self.fields["username"].widget.attrs["disabled"] = "true"
 
-        self.fields["first_name"].widget.attrs["class"] = "form-control"
+        self.fields["first_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["first_name"].widget.attrs["required"] = "true"
+        self.fields["first_name"].widget.attrs["placeholder"] = "First Name"
 
-        self.fields["last_name"].widget.attrs["class"] = "form-control"
+        self.fields["last_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["last_name"].widget.attrs["required"] = "true"
+        self.fields["last_name"].widget.attrs["placeholder"] = "Last Name"
 
-        self.fields["email"].widget.attrs["class"] = "form-control"
+        self.fields["email"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["email"].widget.attrs["required"] = "true"
+        self.fields["email"].widget.attrs["placeholder"] = "Email Address"
 
-        # self.fields["registration_no"].widget.attrs["class"] = "form-control"
 
-        self.fields["phone"].widget.attrs["class"] = "form-control"
+        self.fields["phone"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["phone"].widget.attrs["required"] = "true"
+        self.fields["phone"].widget.attrs["placeholder"] = "+91 629xxx"
 
-        self.fields["address1"].widget.attrs["class"] = "form-control"
+        self.fields["address1"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["address1"].widget.attrs["required"] = "true"
+        self.fields["address1"].widget.attrs["placeholder"] = "Address 1"
 
-        self.fields["address2"].widget.attrs["class"] = "form-control"
+        self.fields["address2"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
+        self.fields["address2"].widget.attrs["placeholder"] = "Address 2"
 
-        self.fields["city"].widget.attrs["class"] = "form-control"
+        self.fields["city"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["city"].widget.attrs["required"] = "true"
+        self.fields["city"].widget.attrs["placeholder"] = "City"
 
-        self.fields["state"].widget.attrs["class"] = "form-control"
+        self.fields["state"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["state"].widget.attrs["required"] = "true"
+        self.fields["state"].widget.attrs["placeholder"] = "State"
 
-        self.fields["country"].widget.attrs["class"] = "form-control"
+        self.fields["country"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["country"].widget.attrs["required"] = "true"
+        self.fields["country"].widget.attrs["placeholder"] = "Country"
 
-        self.fields["zip_code"].widget.attrs["class"] = "form-control"
+        self.fields["zip_code"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["zip_code"].widget.attrs["required"] = "true"
+        self.fields["zip_code"].widget.attrs["placeholder"] = "Zip Code"
 
-        self.fields["gender"].widget.attrs["class"] = "form-control"
+        self.fields["gender"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["gender"].widget.attrs["style"] = "color: black !important;"
+        self.fields["gender"].widget.attrs["placeholder"] = "Select Gender"
 
-        self.fields["university_name"].widget.attrs["class"] = "form-control"
+        self.fields["university_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["university_name"].widget.attrs["required"] = "true"
+        self.fields["university_name"].widget.attrs["placeholder"] = "University Name"
 
         if not self.admin:
             self.fields.pop("password")
@@ -227,7 +240,6 @@ class EditProfileForm(UserChangeForm):
             "username",
             "first_name",
             "last_name",
-            # "registration_no",
             "email",
             "gender",
             "phone",

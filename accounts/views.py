@@ -69,48 +69,25 @@ class PasswordResetDoneViews(PasswordResetDoneView):
 
 
 @sync_to_async
+@login_required
 def view_profile(request):
-    # if request.method == "POST":
-    #     form = EditProfileForm(request.POST,
-    #                            instance=request.user,
-    #                            admin=False)
+    if request.method == "POST":
+        form = EditProfileForm(request.POST,instance=request.user,admin=False)
 
-    #     if form.is_valid():
-    #         user = form.save(commit=False)
-    #         referral = request.POST.get("referral_code")
-    #         if len(referral) == 0 or referral in [None, ""]:
-    #             user.referral_code = None
-    #         else:
-    #             if Referral.objects.filter(referral_code=referral).exists():
-    #                 request.user.referral_code = Referral.objects.filter(
-    #                     referral_code=referral).get()
-    #             else:
-    #                 messages.warning(
-    #                     request,
-    #                     f"<strong>{referral}</strong> Referral Code does not exists",
-    #                 )
+        if form.is_valid():
+            form.save(commit=True)
+            messages.success(request,"Your <strong>Profile</strong> has been update successfully !")
+            return redirect(reverse("view_profile"))
+        if not form.errors:
+            messages.error(request, "Please correct the errors mentioned below!")
 
-    #         messages.success(
-    #             request,
-    #             "Your <strong>Profile</strong> has been update successfully !")
-    #         form.save(commit=True)
-    #         return redirect(reverse("view_profile"))
-    #     if not form.errors:
-    #         messages.error(request,
-    #                        "Please correct the errors mentioned below!")
-
-    # else:
-    #     form = EditProfileForm(instance=request.user, admin=False)
+    else:
+        form = EditProfileForm(instance=request.user, admin=False)
     return render(
         request,
-        "accounts/signup_and_different_template.html",
+        "profile.html",
         {
-            # "form": form,
-            "heading": "Update Profile",
-            "title": "Update Profile",
-            "view_profile": True,
-            "no_display_messages": True,
-            "referral": True,
+            "form": form,
         },
     )
 
