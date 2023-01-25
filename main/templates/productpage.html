@@ -1,4 +1,5 @@
-{% extends main/base.html %}{% load thumbnail humanize %}
+{% extends "main/base.html" %}{% load thumbnail humanize %}
+{% block title %}{{product.name|title}}{% endblock title %}
 {% block content %}
 <div class=" grid grid-cols-2 gap-4">
     <div class="pdtimg">
@@ -11,22 +12,30 @@
         <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
             <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
 
-                <div class="pdtfeatures ">
+                <div class="pdtfeatures">
                     <h1 style="margin-top: 50px;">{{product.name}}</h1>
-                    <p>{{product.description}}</p>
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white py-4">₹{{product.price|intcomma}}</span>
-
-                    <div class="pdtbuttons px-2">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Add to Cart</button>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Rent Now</button>
-                    </div>
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white py-4 mb-5">₹ {{product.price|intcomma}} / hour</span>
+                    <br/>
+                    <form method="POST" action="{% url 'add_to_cart' %}">{% csrf_token %}
+                        <br/>
+                        <input type="hidden" name="product_id" value="{{product.product_id}}" />
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="hours">Hours of Rent: </label>
+                        <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" min="1" max="24" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">Quantity: </label>
+                        <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" min="1" max="24" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <div class="pdtbuttons px-2">
+                            <button type="submit" {% if product.out_of_stock %}disabled{% endif %} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Add to Cart</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<hr/>
+<p class="px-4 py-8 mx-auto lg:py-16 lg:px-6">{{product.description}}</p>
 
-
+{% for i in testimonials %}
 <!--Testimonials-->
 <section class="bg-white dark:bg-gray-900">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
@@ -35,16 +44,16 @@
                 <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
             </svg>
             <blockquote>
-                <p class="text-2xl font-medium text-gray-900 dark:text-white">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut laborum, optio at rerum neque, officia sint illum quisquam vel minima accusantium repellendus repellat ipsam dicta hic facilis mollitia. Omnis, deserunt.</p>
+                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{i.feedback}}</p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
-                <img class="w-6 h-6 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="profile picture">
+                <i class='w-6 h-6 rounded-full bx bxs-user-circle' style="font-size: 35px;"></i>
                 <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                    <div class="pr-3 font-medium text-gray-900 dark:text-white">Micheal Gough</div>
-                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">Student at LPU</div>
+                    <div class="pr-3 font-medium text-gray-900 dark:text-white">{{i.user.first_name|title}} {{i.user.last_name|title}}</div>
                 </div>
             </figcaption>
         </figure>
     </div>
 </section>
+{% endfor %}
 {% endblock content %}

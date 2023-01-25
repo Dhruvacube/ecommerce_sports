@@ -33,4 +33,4 @@ urlpatterns = [
     re_path(r"^logout/$", views.user_logout, name="signout"),
     path("signup/", views.signup, name="signup"),
     path("", include("django.contrib.auth.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
