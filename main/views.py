@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-
+from .forms import FeedBackForm
 from .models import Order, OrderedProduct, Product, Category, Cart, Testimonial
 
 
@@ -28,6 +28,23 @@ def product(request, product_id: str):
         {
             "product": product,
             "testimonials": Testimonial.objects.filter(product=product).all(),
+        }
+    )
+
+@sync_to_async
+def feedback(request):
+    # create object of form
+    form = FeedBackForm(request.POST or None)
+     
+    # check if form data is valid
+    if form.is_valid():
+        # save the form data to model
+        form.save()
+    return render(
+        request, 
+        "feedback.html",
+        {
+            "form": form
         }
     )
 

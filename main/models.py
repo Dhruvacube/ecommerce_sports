@@ -46,6 +46,9 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="order_user", on_delete=models.CASCADE)
     payment = models.BooleanField(default=False)
     
+    def __str__(self) -> str:
+        return self.order_id
+    
 class Cart(models.Model):
     order = models.ForeignKey(Order, related_name="cart_order", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="cart_user", on_delete=models.CASCADE)
@@ -53,10 +56,16 @@ class Cart(models.Model):
 class FeedBack(models.Model):
     email = models.EmailField(help_text=_("Enter the email"))
     feedback = models.TextField(help_text=_("Enter the feedback"))
+    
+    def __str__(self) -> str:
+        return self.email
 
 class Testimonial(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="testimonials_user", on_delete=models.CASCADE)
     feedback = models.TextField(help_text=_("Enter the feedback"))
     rating = models.PositiveIntegerField(help_text=_("Enter the rating out of 5"),validators=[MaxValueValidator(5)])
     product = models.ForeignKey(Product, related_name="testimonials_order", on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return self.product.name + '-' + self.user.username
     
