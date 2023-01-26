@@ -20,9 +20,9 @@
                         <br/>
                         <input type="hidden" name="product_id" value="{{product.product_id}}" />
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="hours">Hours of Rent: </label>
-                        <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" min="1" max="24" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">Quantity: </label>
-                        <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" min="1" max="24" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
                         <div class="pdtbuttons px-2">
                             <button type="submit" {% if product.out_of_stock %}disabled{% endif %} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Add to Cart</button>
                         </div>

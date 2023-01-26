@@ -42,6 +42,7 @@ module.exports = {
          * and make sure the pattern below matches your project structure.
          */
         '../../**/*.py',
+        '../../**/**/*.py',
         './node_modules/flowbite/**/*.js'
     ],
     theme: {

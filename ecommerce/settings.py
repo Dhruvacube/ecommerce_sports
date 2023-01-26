@@ -282,8 +282,9 @@ else:
     CACHE_MIDDLEWARE_SECONDS = 0
     
 if bool(int(getattr(envConfig, 'LOGGING', 0))):
-    from .django_logging import LOGGING
     import logging
+
+    from .django_logging import LOGGING
     logging.config.dictConfig(LOGGING)
 
 EMAIL_PORT = 587
@@ -309,4 +310,5 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.filters',
 )
 
-STRIPE_API_SECRET_KEY = token_get('STRIPE_API_SECRET_KEY')
+RAZOR_KEY_ID = token_get('RAZOR_KEY_ID')
+RAZOR_KEY_SECRET = token_get('RAZOR_KEY_SECRET')

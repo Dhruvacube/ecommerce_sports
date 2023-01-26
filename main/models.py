@@ -53,6 +53,9 @@ class Cart(models.Model):
     order = models.ForeignKey(Order, related_name="cart_order", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="cart_user", on_delete=models.CASCADE)
     
+    def __str__(self) -> str:
+        return "Cart of " + self.user.username
+    
 class FeedBack(models.Model):
     email = models.EmailField(help_text=_("Enter the email"))
     feedback = models.TextField(help_text=_("Enter the feedback"))
