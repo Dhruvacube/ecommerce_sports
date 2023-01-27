@@ -88,15 +88,11 @@
                     <!-- Dropdown menu -->
                     <div id="dropdownProducts" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                            {% for i in category|return_category_url %}
                             <li>
-                                <a href="wearables.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Wearables</a>
+                                <a href="{% url 'category_details' i.name %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{i.name|title}}</a>
                             </li>
-                            <li>
-                                <a href="kits.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Kits</a>
-                            </li>
-                            <li>
-                                <a href="equipments.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Equipments</a>
-                            </li>
+                            {% endfor %}
                         </ul>
 
                     </div>

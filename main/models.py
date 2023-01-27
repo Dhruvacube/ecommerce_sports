@@ -13,6 +13,7 @@ def random_id():
 
 class Category(models.Model):
     name = models.CharField(max_length=50, help_text=_("Enter the name of the category"), unique=True)
+    image = FilerImageField(related_name="category_image", on_delete=models.RESTRICT, help_text=_("Upload the image of the category")) 
     description = models.TextField(_("Description"), help_text=_("Enter the description of the category"), blank=True, null=True)
     
     class Meta:

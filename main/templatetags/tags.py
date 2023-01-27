@@ -1,5 +1,7 @@
 from django import template
 from typing import TYPE_CHECKING
+from main. models import Category
+
 if TYPE_CHECKING:
     from typing import Iterable
     from main.models import OrderedProduct
@@ -33,5 +35,8 @@ def button_tags(key: str):
 
 @register.filter(name="give_price")
 def give_price(products: 'Iterable[OrderedProduct]') -> int:
-    print(products)
     return sum(list(map(lambda a: a.product.price*a.quantity*a.hours, products)))
+
+@register.filter(name="return_category_url")
+def return_category_url(dummy_arg, *args, **kwargs):
+    return list(Category.objects.iterator())

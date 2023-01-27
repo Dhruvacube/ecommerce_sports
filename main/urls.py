@@ -9,5 +9,6 @@ urlpatterns = [
     path("cart/", view_cart, name="cart"),
     path("orders/", orders, name="orders"),
     path('orders/<str:order_id>', order_details, name='order_details'),
+    path('category/<str:category_name>', view_category, name='category_details'),
     path('', home, name='home'),
 ]

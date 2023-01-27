@@ -44,6 +44,18 @@ def product(request, product_id: str):
     )
 
 @sync_to_async
+def view_category(request, category_name: str):
+    category = Category.objects.get(name=category_name)
+    return render(
+        request, 
+        "category.html",
+        {
+            "category": category,
+            "products": Product.objects.filter(category=category).all(),
+        }
+    )
+
+@sync_to_async
 def feedback(request):
     # create object of form
     form = FeedBackForm(request.POST or None)
