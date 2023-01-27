@@ -4,25 +4,25 @@
 <div class=" grid grid-cols-2 gap-4">
     <div class="pdtimg">
         <!--product image-->
-        <img src="{% thumbnail product.image 250x250 crop %}" alt="{{product.name}} image" style="height: 400px; width:auto; margin-left:150px; margin-top:150px">
+        <img src="{% thumbnail product.image 500x500 crop %}" class="shadow-lg rounded-lg" alt="{{product.name}} image" style="width:auto; margin-left:150px; margin-top:150px">
     </div>
     <!--Product Features-->
 
     <div class="bg-grey-lighter min-h-screen flex flex-col">
-        <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-            <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+        <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div class="bg-white px-6 py-8 rounded shadow-xl text-black w-full">
 
                 <div class="pdtfeatures">
-                    <h1 style="margin-top: 50px;">{{product.name}}</h1>
+                    <h1 class="mt-13 mr-2">{{product.name}}&nbsp;&nbsp;&nbsp;&nbsp;</h1>
                     <span class="text-3xl font-bold text-gray-900 dark:text-white py-4 mb-5">₹ {{product.price|intcomma}} / hour</span>
                     <br/>
                     <form method="POST" action="{% url 'add_to_cart' %}">{% csrf_token %}
                         <br/>
                         <input type="hidden" name="product_id" value="{{product.product_id}}" />
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="hours">Hours of Rent: </label>
-                        <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" min="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">Quantity: </label>
-                        <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" min="1" max="{{product.quantity_available}}" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
                         <div class="pdtbuttons px-2">
                             <button type="submit" {% if product.out_of_stock %}disabled{% endif %} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Add to Cart</button>
                         </div>
@@ -33,8 +33,8 @@
     </div>
 </div>
 <hr/>
-<p class="px-4 py-8 mx-auto lg:py-16 lg:px-6">{{product.description}}</p>
-
+<p class="px-4 py-8 mx-auto lg:py-16 lg:px-6 bg-white rounded shadow-xl text-black w-full">{{product.description}}</p>
+<br/>
 {% for i in testimonials %}
 <!--Testimonials-->
 <section class="bg-white dark:bg-gray-900">
@@ -55,5 +55,6 @@
         </figure>
     </div>
 </section>
+<br/>
 {% endfor %}
 {% endblock content %}

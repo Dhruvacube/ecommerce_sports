@@ -1,0 +1,7 @@
+{% verbatim  %}
+Hey {{username}},
+    You have sucessfully paid ₹{{amount}} with reciept id: {{receipt_id}}
+    View your order details here: {{protocol}}://{{domain}}{% url 'order_details' receipt_id %}
+Regards,
+Team Sportszy
+{% endverbatim  %}

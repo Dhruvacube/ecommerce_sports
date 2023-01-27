@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'theme.apps.ThemeConfig',
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
+    'payments.apps.PaymentsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -1,13 +1,11 @@
+import logging
+
 import razorpay
 from django.conf import settings
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext
-from django_admin_listfilter_dropdown.filters import (
-    ChoiceDropdownFilter,
-)
-
-from main.models import GameGroup
+from django_admin_listfilter_dropdown.filters import ChoiceDropdownFilter
 
 from .models import *
 
@@ -25,9 +23,8 @@ class PaymentsAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_filter = (("payment_status", ChoiceDropdownFilter), "created_at")
-    search_fields = list_display + ("orders_list", )
+    search_fields = list_display
     readonly_fields = (
-        "orders_list",
         "created_at",
         "payment_id_merchant",
         "order_id_merchant",
@@ -55,25 +52,22 @@ class PaymentsAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        (_("Orders List"), {
-            "fields": ("orders_list", )
-        }),
+        # (_("Orders List"), {
+        #     "fields": ("orders_list", )
+        # }),
     )
 
     def refund_the_payment(self, request, queryset):
         for i in queryset:
             if i.payment_status == "S":
                 try:
-                    a = razorpay_client.payment.refund(i.payment_id_merchant,
-                                                       i.amount * 100)
-                    game_grup_model = GameGroup.objects.filter(payment_id=i)
-                    game_grup_model.delete()
+                    a = razorpay_client.payment.refund(i.payment_id_merchant, i.amount * 100)
                     i.payment_status = "R"
                     i.save()
-                    print("Done")
+                    logging.info("Done")
                 except Exception as e:
-                    print("Exception occurred:", e)
-                    print("Payment request object", i)
+                    logging.warning("Exception occurred:", e)
+                    logging.warning("Payment request object", i)
         self.message_user(
             request,
             ngettext(

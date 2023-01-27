@@ -2,23 +2,34 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 {% if header %}
-<header class="bg-header flex items-center justify-center h-screen pb-12">
-    <img src="{% static 'img/selogo.png' %}" class="object-cover" alt="Sportszy Logo" />
+<style>
+.bg-header {
+    background-image: url("{% static 'img/soccer.jpg'%}")
+}
+</style>
+<header class="flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover bg-header">
+    <img src="{% static 'img/selogo.png' %}" alt="Sportszy Logo" />
 </header>
 {% endif %}
+<div class="container mx-auto">
 {% for category, products in products_dict.items %}
+<hr/>
 <div class="{{category|lower}}">
-    <h1 class="h1">{{category|title}}</h1>
-    <div style="display: inline-flex;">
+    <h1 class="h1"><u>{{category|title}}</u></h1>
+    <hr/>
+    <div class="container my-12 mx-auto px-4 md:px-12">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4">
         {% for j in products %}
-        <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ">
-            <div>
-                <img class="p-8 rounded-t-lg" src="{% thumbnail j.image 250x250 crop %}" alt="product image">
-            </div>
+        <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ">
+            <center>
+                <a href="{% url 'about_product' j.product_id %}">
+                <img class="p-8 rounded-t-lg" src="{% thumbnail j.image 325x325 crop %}" alt="product image">
+                </a>
+            </center>
             <div class="px-5 pb-5">
-                <div>
+                <a href="{% url 'about_product' j.product_id %}">
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{j.name|title}}</h5>
-                </div>
+                </a>
                 <div class="flex items-center justify-between">
                     <span class="text-3xl font-bold text-gray-900 dark:text-white">₹ {{j.price|intcomma}} / hr</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{% url 'about_product' j.product_id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View Product</a>
@@ -26,6 +37,8 @@
             </div>
         </div>
         {% endfor %}
-</div>
+        </div>  
+    </div>  
 {% endfor %}
+</div>
 {% endblock content %}

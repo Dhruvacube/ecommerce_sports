@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}{% load humanize tags %}
+{% block title %}Order Details{% endblock title %}
+{% block content %}
+<h1 class="h1">Orders</h1>
+<br>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    SL. NO
+                </th>
+                <th scope="col" class="px-6 py-3 rounded-l-lg">
+                    Order ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    No of Products
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3 rounded-r-lg">
+                    View Details
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in orders %}
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4">
+                    {{forloop.counter}}
+                </th>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{i.order_id}}
+                </th>
+                <td class="px-6 py-4">
+                    {{i.products.count|intcomma}}
+                </td>
+                <td class="px-6 py-4">
+                    ₹{{i.products.all|give_price|intcomma}}
+                </td>
+                <td class="px-6 py-4">
+                    <a href="{% url 'order_details' i.order_id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+{% endblock content %}

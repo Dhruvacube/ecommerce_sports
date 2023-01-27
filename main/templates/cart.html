@@ -1,15 +1,18 @@
 {% extends 'main/base.html' %}{% load humanize thumbnail %}
-{% block title %}Cart{% endblock title %}
+{% block title %}{{title|title}}{% endblock title %}
 {% block content %}
-<div class="wearables">
-    <h1 class="h1">Cart</h1>
+<div class="container">
+    <h1 class="h1">{{title|title}}</h1>
     <hr/>
-    <div style="display: inline-flex;" class="items-center justify-center">
-        {% for product in cart.order.products.all %}
+    <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="flex flex-wrap -mx-1 lg:-mx-4 items-center justify-center">
+        {% for product in order.products.all %}
         <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ">
+            <center>
             <a href="{% url 'about_product' product.product.product_id %}" target="_blank">
                 <img class="p-8 rounded-t-lg" src="{% thumbnail product.product.image 250x250 crop %}" alt="{{product.product.name}} image">
             </a>
+            </center>
             <div class="px-5 pb-5">
                 <a href="{% url 'about_product' product.product.product_id %}" target="_blank">
                     <h5 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"><u>{{product.product.name|title}}</u></h5>
@@ -18,6 +21,7 @@
                 <span class="text-xl font-bold text-gray-900 dark:text-white">Quantity: {{product.quantity}}</span><br/>
                 <span class="text-xl font-bold text-gray-900 dark:text-white">Renting hours: {{product.hours}} hours</span>
                 <br/>
+                {% if remove_from_cart %}
                 <div class="flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-900 dark:text-white">₹{{product.product.price|intcomma}}/hr</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <form action="{% url 'remove_from_cart' %}" method="POST">{% csrf_token %}
@@ -25,9 +29,11 @@
                         <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Remove</button>
                     </form>    
                 </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
+    </div>
     </div>
 </div>
 <hr/>
@@ -47,6 +53,12 @@
             </center>
             <center>
                 <br />
+                {%if verify_details %}
+                <form method="POST">{% csrf_token %}
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Verify details</button>
+                </form>
+                {% endif %}
+                {% if checkout %}
                 <button id="rzp-button1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Check out</button>
                 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
                 <script>
@@ -66,6 +78,7 @@
                         e.preventDefault();
                     }
                 </script>
+                {% endif %}
             </center>
         </div>
     </div>

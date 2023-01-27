@@ -1,4 +1,8 @@
 from django import template
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Iterable
+    from main.models import OrderedProduct
 
 register = template.Library()
 
@@ -26,3 +30,8 @@ def div_tags(key: str):
 @register.filter(name="button_tags")
 def button_tags(key: str):
     return BUTTON_TAGS.get(key, "bg-grey-50 text-grey-500 rounded-lg focus:ring-2 focus:ring-grey-400 p-1.5 hover:bg-grey-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-grey-400 dark:hover:bg-gray-700")
+
+@register.filter(name="give_price")
+def give_price(products: 'Iterable[OrderedProduct]') -> int:
+    print(products)
+    return sum(list(map(lambda a: a.product.price*a.quantity*a.hours, products)))

@@ -29,7 +29,7 @@ class Product(models.Model):
     description = models.TextField(help_text=_("Enter the description of the product"))
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text=_("Enter the price of the product in ruppess in per hour rate"))
     out_of_stock = models.BooleanField(default=False)
-    
+    quantity_available = models.PositiveIntegerField(default=1, help_text=_("Enter the quantity of the product available"))
     def __str__(self):
         return self.name
 
@@ -47,7 +47,7 @@ class Order(models.Model):
     payment = models.BooleanField(default=False)
     
     def __str__(self) -> str:
-        return self.order_id
+        return self.order_id + ": " + self.user.username
     
 class Cart(models.Model):
     order = models.ForeignKey(Order, related_name="cart_order", on_delete=models.CASCADE, null=True)

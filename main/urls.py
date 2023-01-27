@@ -7,5 +7,7 @@ urlpatterns = [
     path("product/<str:product_id>", product, name="about_product"),
     path("feedback/", feedback, name="feedback"),
     path("cart/", view_cart, name="cart"),
+    path("orders/", orders, name="orders"),
+    path('orders/<str:order_id>', order_details, name='order_details'),
     path('', home, name='home'),
 ]

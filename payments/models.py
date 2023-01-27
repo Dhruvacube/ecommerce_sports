@@ -7,6 +7,7 @@ class Payments(models.Model):
     order = models.ForeignKey(
         "main.Order",
         help_text=_("The order ID by which the system refers"),
+        on_delete=models.CASCADE,
     )
     payment_id_merchant = models.CharField(
         default=uuid.uuid4,
@@ -33,7 +34,6 @@ class Payments(models.Model):
         ),
         default="P",
     )
-    orders_list = models.TextField(help_text=_("The orders list value"))
     created_at = models.DateTimeField(default=now)
 
     def __str__(self):
