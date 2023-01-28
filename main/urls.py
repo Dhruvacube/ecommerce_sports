@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 from .views import *
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path("orders/", orders, name="orders"),
     path('orders/<str:order_id>', order_details, name='order_details'),
     path('category/<str:category_name>', view_category, name='category_details'),
+    re_path(r'^search/$', search, name="search"),
     path('', home, name='home'),
 ]

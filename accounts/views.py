@@ -41,7 +41,7 @@ class PasswordResetConfirmViews(PasswordResetConfirmView):
 
 
 class PasswordResetViews(PasswordResetView):
-    html_email_template_name = "accounts/password_reset_email.html"
+    html_email_template_name = "registration/password_reset_email.html"
     form_class = PasswordReset
     title = _("Password reset")
     description = _(
@@ -76,7 +76,7 @@ def view_profile(request):
 
         if form.is_valid():
             form.save(commit=True)
-            messages.success(request,"Your <strong>Profile</strong> has been update successfully !")
+            messages.success(request,"Your Profile has been update successfully !")
             return redirect(reverse("view_profile"))
         if not form.errors:
             messages.error(request, "Please correct the errors mentioned below!")
@@ -101,7 +101,7 @@ def change_password(request):
         if form.is_valid():
             messages.success(
                 request,
-                "Your <strong>password</strong> has been update successfully !"
+                "Your password has been update successfully !"
             )
             form.save()
             update_session_auth_hash(request, form.user)
@@ -111,7 +111,7 @@ def change_password(request):
         form = PasswordChangeForms(user=request.user)
     return render(
         request,
-        "accounts/password_reset_confirm.html",
+        "registration/password_reset_confirm.html",
         {
             "form": form,
         },
@@ -143,6 +143,7 @@ def loginform(request):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
+                messages.success(request, "You have been successfully logged in!")
                 login(request, user)
                 if bool(next_url):
                     return HttpResponsePermanentRedirect(next_url)
@@ -184,7 +185,7 @@ def signup(request):
             }
             if not EmailTemplate.objects.filter(name="register_mail").exists():
                 message = render_to_string("accounts/register_mail.html")
-                mail_subject = "Thank you for registering!"
+                mail_subject = "Thank you for registering in Sportzy!"
                 EmailTemplate.objects.create(
                     name="register_mail",
                     description="Thank you E-Mail Template",
@@ -198,7 +199,7 @@ def signup(request):
                 context=ctx,
             )
             mail_queue.delay()
-            return redirect(reverse("make_order"))
+            return redirect(reverse("home"))
     form = SignupForm()
     return render(
         request,

@@ -7,12 +7,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponsePermanentRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from post_office import mail
 from post_office.models import EmailTemplate
 
-from main.models import Order, Cart
+from main.models import Cart, Order
 from main.tasks import mail_queue
 
 from .models import Payments
@@ -54,7 +55,8 @@ def payment_stats(request):
             ).update(payment_id_merchant=payment_id, payment_status="S")
             
             Order.objects.filter(order_id=request.session["order_id"]).update(
-                payment=True
+                payment=True,
+                payment_date=timezone.now()
             )
             Cart.objects.filter(user=request.user).delete()
             messages.success(
@@ -81,6 +83,12 @@ def payment_stats(request):
                 )
             mail.send(
                 request.user.email,
+                settings.EMAIL_HOST_USER,
+                template="payment_mail",
+                context=ctx,
+            )
+            mail.send(
+                settings.EMAIL_HOST_USER,
                 settings.EMAIL_HOST_USER,
                 template="payment_mail",
                 context=ctx,

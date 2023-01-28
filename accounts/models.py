@@ -55,27 +55,31 @@ class User(AbstractUser):
         max_length=11,
         choices=(("M", "Male"), ("F", "Female"), ("O", "Others")),
         null=True,
+        db_index=True
     )
     phone = models.CharField(
         _("phone"),
         max_length=15,
         validators=[MinLengthValidator(10)],
         help_text=_("It should be +91 67xxx"),
+        db_index=True
     )
-    address1 = models.TextField(_("address 1"), validators=[validate_address], null=True)
+    address1 = models.TextField(_("address 1"), validators=[validate_address], null=True, db_index=True)
     address2 = models.TextField(_("address 2"),
                                 validators=[validate_address],
                                 blank=True,
-                                null=True)
+                                null=True,
+                                db_index=True)
     city = models.CharField(_("city"),
                             max_length=500,
-                            validators=[validate_city])
-    state = models.CharField(_("state"), max_length=250, null=True)
-    country = models.CharField(_("country"), max_length=250, null=True)
+                            validators=[validate_city],
+                            db_index=True)
+    state = models.CharField(_("state"), max_length=250, null=True, db_index=True)
+    country = models.CharField(_("country"), max_length=250, null=True, db_index=True)
     zip_code = models.CharField(_("zip code"),
                                 max_length=6,
-                                validators=[validate_zip], null=True)
-    university_name = models.CharField(_("University or College Name"),max_length=250)
+                                validators=[validate_zip], null=True, db_index=True)
+    university_name = models.CharField(_("University or College Name"),max_length=250, db_index=True)
 
     class Meta:
         unique_together = ("email",)

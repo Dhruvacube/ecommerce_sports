@@ -1,5 +1,5 @@
 """
- Command for running collectstatic and compress command simultaneously
+ It runs tailwind install and `npm install flowbite` command simultaneously
 """
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -8,7 +8,7 @@ import subprocess, os
 
 
 class Command(BaseCommand):
-    help = "It runs collectstatic and compress command simultaneously"
+    help = "It runs tailwind install and `npm install flowbite` command simultaneously"
     output_transaction = True
 
     def handle(self, *args, **options):

@@ -150,7 +150,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if bool(int(token_get('POSTGRES'))) or not bool(int(token_get('SQLITE'))) and token_get('DATABASE_URL'):
+if bool(int(token_get('POSTGRES'))) and token_get('DATABASE_URL') or not bool(int(token_get('SQLITE'))):
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config(default=token_get("DATABASE_URL"))
