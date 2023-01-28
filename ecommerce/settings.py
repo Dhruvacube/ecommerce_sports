@@ -283,10 +283,7 @@ else:
     CACHE_MIDDLEWARE_SECONDS = 0
     
 if bool(int(getattr(envConfig, 'LOGGING', 0))):
-    import logging
-
     from .django_logging import LOGGING
-    logging.config.dictConfig(LOGGING)
 
 EMAIL_PORT = 587
 EMAIL_HOST = "smtp.gmail.com"

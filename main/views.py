@@ -136,7 +136,7 @@ def view_cart(request):
         "title": "Cart",
     }
     if request.method == 'POST':
-        if request.user.first_name is None or request.user.last_name is None or request.user.phone is None or request.user.address1 is None or request.user.address2 is None or request.user.city is None or request.user.state is None or request.user.zip_code is None or request.user.country is None or request.user.university is None or request.user.college is None or request.user.course is None or request.user.year is None or request.user.roll_no is None:
+        if request.user.first_name is None or request.user.last_name is None or request.user.phone is None or request.user.address1 is None or request.user.address2 is None or request.user.city is None or request.user.state is None or request.user.zip_code is None or request.user.country is None or request.user.university_name is None:
             messages.error(request, "First please fill in all the details in your profile")
             return HttpResponseRedirect(reverse("view_profile"))
         current_site = get_current_site(request)
@@ -218,20 +218,14 @@ def search(request):
     #using search vector
     search_vector = Product.objects.annotate(
         rank=SearchRank(
-            SearchVector('name', 'description', 'category__name', 'price', 'quantity_available'),
+            SearchVector('name', 'description', 'category__name'),
             SearchQuery('query')
         )
     ).order_by('-rank')
-    
-    #using TrigramWordDistance
-    word_distance = Product.objects.annotate(
-        distance=TrigramWordDistance(query, 'name'),
-    ).filter(distance__lte=0.7).order_by('distance')
-    
-    unioned_data = search_vector.union(word_distance)
-    count = unioned_data.count()
+
+    count = search_vector.count()
     if count == 0:
-        messages.error(request, "No results found")
+        messages.warning(request, "No results found")
         if reverse("search") not in request.META.get('HTTP_REFERER') or request.META.get('HTTP_REFERER') is None:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return HttpResponseRedirect(reverse("home"))
@@ -241,6 +235,6 @@ def search(request):
         'search.html',
         {
             "count": count,
-            "products": unioned_data,
+            "products": search_vector,
         }
     )

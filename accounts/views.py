@@ -135,7 +135,7 @@ def loginform(request):
         user_obj = User.objects.filter(Q(username=username_email) | Q(email=username_email))
         if not user_obj.exists():
             messages.warning(request, "Please create an new account !")
-            return redirect(reverse("signin"))
+            return redirect(reverse("signup"))
         if form.is_valid():
             username = user_obj.all()[0].username
             password = form.cleaned_data.get("password")
