@@ -58,44 +58,42 @@ def validate_address(value):
 
 
 class SignupForm(forms.Form):
-    username = forms.CharField(max_length=250)
-    first_name = forms.CharField(max_length=250)
-    last_name = forms.CharField(max_length=250)
+    username = forms.CharField(max_length=250, required=True)
+    first_name = forms.CharField(max_length=250, required=True)
+    last_name = forms.CharField(max_length=250, required=True)
     email = forms.EmailField(
-        max_length=200, help_text="Required", validators=[validate_email]
+        max_length=200, help_text="Required", validators=[validate_email], required=True
     )
     phone = forms.CharField(
         max_length=15,
         validators=[MinLengthValidator(10)],
-        help_text=_("It should be +91 67xxx"),
+        help_text=_("It should be +91 67xxx"), required=True
     )
-    university_name = forms.CharField(max_length=250)
+    university_name = forms.CharField(max_length=250, required=True)
+    registration_no = forms.IntegerField(required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["username"].widget.attrs["placeholder"] = "Username"
-        self.fields["username"].widget.attrs["required"] = "true"
         
         self.fields["first_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["first_name"].widget.attrs["placeholder"] = "First Name"
-        self.fields["first_name"].widget.attrs["required"] = "true"
 
         self.fields["last_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["last_name"].widget.attrs["placeholder"] = "Last Name"
-        self.fields["last_name"].widget.attrs["required"] = "true"
 
         self.fields["email"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["email"].widget.attrs["placeholder"] = "email_address@host.domain"
-        self.fields["email"].widget.attrs["required"] = "true"
 
         self.fields["university_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["university_name"].widget.attrs["placeholder"] = "University Name"
-        self.fields["university_name"].widget.attrs["required"] = "true"
         
         self.fields["phone"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["phone"].widget.attrs["placeholder"] = "Phone Number (+91 65xxx)"
-        self.fields["university_name"].widget.attrs["required"] = "true"
+        
+        self.fields["registration_no"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
+        self.fields["registration_no"].widget.attrs["placeholder"] = "University Registration No."
 
 
 
@@ -228,6 +226,10 @@ class EditProfileForm(UserChangeForm):
         self.fields["university_name"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
         self.fields["university_name"].widget.attrs["required"] = "true"
         self.fields["university_name"].widget.attrs["placeholder"] = "University Name"
+        
+        self.fields["registration_no"].widget.attrs["class"] = "block border border-grey-light w-full p-3 rounded mb-4"
+        self.fields["registration_no"].widget.attrs["required"] = "true"
+        self.fields["registration_no"].widget.attrs["placeholder"] = "University Registration No"
 
         if not self.admin:
             self.fields.pop("password")
@@ -248,6 +250,7 @@ class EditProfileForm(UserChangeForm):
             "country",
             "zip_code",
             "university_name",
+            "registration_no"
         )
 
 

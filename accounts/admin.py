@@ -24,6 +24,7 @@ class CustomUserAdmin(UserAdmin):
                 "city",
                 "zip_code",
                 "gender",
+                "registration_no"
             )
         },
     ), ) + (UserAdmin.fieldsets[2], UserAdmin.fieldsets[3]))

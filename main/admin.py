@@ -8,7 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'category')
+    list_display = ('name', 'price', 'category', 'carousel_entry')
+    search_fields = list_display
     readonly_fields = ('product_id',)
     prepopulated_fields = {'description': ('name',)}
 

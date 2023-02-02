@@ -1,4 +1,6 @@
 from django.urls import path,re_path
+from django.conf.urls.static import static
+from django.conf import settings
 from .views import *
 
 urlpatterns = [
@@ -12,4 +14,4 @@ urlpatterns = [
     path('category/<str:category_name>', view_category, name='category_details'),
     re_path(r'^search/$', search, name="search"),
     path('', home, name='home'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

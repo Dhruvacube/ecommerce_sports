@@ -11,28 +11,29 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib import messages
-from django.contrib.postgres.search import TrigramWordDistance
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from payments.models import Payments
 
 from .forms import FeedBackForm
-from .models import Cart, Category, Order, OrderedProduct, Product, Testimonial
+from .models import Cart, Category, Order, OrderedProduct, Product, Testimonial, Product
 
 razorpay_client = razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
 
 
 @sync_to_async
+@login_required
 def home(request):
     return render(
         request, 
         "index.html",
         {
             "products_dict": {i.name: Product.objects.filter(category=i,out_of_stock=False).all()[:6] for i in Category.objects.iterator()},
-            "header": True
+            "header": Product.objects.filter(carousel_entry=True).all() if Product.objects.filter(carousel_entry=True).count() > 2 else False
         }
     )
 
 @sync_to_async
+@login_required
 def product(request, product_id: str):
     product = Product.objects.get(product_id=product_id)
     return render(
@@ -41,10 +42,12 @@ def product(request, product_id: str):
         {
             "product": product,
             "testimonials": Testimonial.objects.filter(product=product).all(),
+            "cart_added": True if Cart.objects.filter(user=request.user).get().order.products.count() > 0 else False
         }
     )
 
 @sync_to_async
+@login_required
 def view_category(request, category_name: str):
     category = Category.objects.get(name=category_name)
     return render(
@@ -57,13 +60,15 @@ def view_category(request, category_name: str):
     )
 
 @sync_to_async
+@login_required
+@cache_page(60 * 15)
 def feedback(request):
     # create object of form
     form = FeedBackForm(request.POST or None)
      
     # check if form data is valid
     if form.is_valid():
-        # save the form data to model
+        messages.success(request, "Feedback submitted successfully!")
         form.save()
     return render(
         request, 
@@ -211,6 +216,7 @@ def order_details(request, order_id: str):
 
 
 @sync_to_async
+@login_required
 @require_GET
 def search(request):
     query = request.GET.get('query').strip()

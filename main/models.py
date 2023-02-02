@@ -31,6 +31,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text=_("Enter the price of the product in ruppess in per hour rate"), db_index=True)
     out_of_stock = models.BooleanField(default=False)
     quantity_available = models.PositiveIntegerField(default=1, help_text=_("Enter the quantity of the product available"), db_index=True)
+    carousel_entry = models.BooleanField(default=False, help_text=_("Check if you want to add this product to the carousel"), db_index=True)
     def __str__(self):
         return self.name
 
@@ -47,6 +48,9 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="order_user", on_delete=models.CASCADE, db_index=True)
     payment = models.BooleanField(default=False, db_index=True)
     payment_date = models.DateTimeField(null=True, db_index=True)
+    
+    class Meta:
+        ordering = ['-payment_date']
     
     def __str__(self) -> str:
         return self.order_id + ": " + self.user.username

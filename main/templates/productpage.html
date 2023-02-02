@@ -1,21 +1,20 @@
 {% extends "main/base.html" %}{% load thumbnail humanize %}
 {% block title %}{{product.name|title}}{% endblock title %}
 {% block content %}
-<div class=" grid grid-cols-2 gap-4">
-    <div class="pdtimg">
-        <!--product image-->
-        <img src="{% thumbnail product.image 500x500 crop %}" class="shadow-lg rounded-lg" alt="{{product.name}} image" style="width:auto; margin-left:150px; margin-top:150px">
+<div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
+    <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
+        <center>
+            <img class="p-8 rounded-t-lg" src="{% thumbnail product.image 500x500 crop %}" alt="{{product.name}} image">
+        </center>
     </div>
-    <!--Product Features-->
 
-    <div class="bg-grey-lighter min-h-screen flex flex-col">
-        <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
-            <div class="bg-white px-6 py-8 rounded shadow-xl text-black w-full">
-
-                <div class="pdtfeatures">
-                    <h1 class="mt-13 mr-2">{{product.name}}&nbsp;&nbsp;&nbsp;&nbsp;</h1>
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white py-4 mb-5">₹ {{product.price|intcomma}} / hour</span>
+    <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
+            <h1 class="mt-13 mr-2 uppercase">{{product.name}}</h1>
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white py-4 mb-5  px-10">₹ {{product.price|intcomma}} / hour</span>
                     <br/>
+                    <div class="flex flex-wrap justify-start px-10">
+
                     <form method="POST" action="{% url 'add_to_cart' %}">{% csrf_token %}
                         <br/>
                         <input type="hidden" name="product_id" value="{{product.product_id}}" />
@@ -23,15 +22,31 @@
                         <input {% if product.out_of_stock %}disabled{% endif %} type="number" name="hours" value="1" min="1" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">Quantity: </label>
                         <input type="number" {% if product.out_of_stock %}disabled{% endif %} name="quantity" value="1" min="1" max="{{product.quantity_available}}" class="block border border-grey-light w-full p-3 rounded mb-4" style="width: 100px;"/>
+                        <div class="flex">
                         <div class="pdtbuttons px-2">
                             <button type="submit" {% if product.out_of_stock %}disabled{% endif %} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Add to Cart</button>
                         </div>
+
+                        {% if cart_added %}
+                        <div class="pdtbuttons px-2">
+                            <a href="{% url 'cart' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">Goto Cart</a>
+                        </div>
+                            {% endif %}  
+                    </div>
+                        <br/>
                     </form>
+                    {% if product.out_of_stock %}
+                            <p class="text-red-500">Out of Stock</p>
+                        {% endif %}
+
+                      
                 </div>
-            </div>
-        </div>
+                
+
     </div>
-</div>
+    </div>  
+</div>  
+
 <hr/>
 <p class="px-4 py-8 mx-auto lg:py-16 lg:px-6 bg-white rounded shadow-xl text-black w-full">{{product.description}}</p>
 <br/>

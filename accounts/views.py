@@ -159,7 +159,7 @@ def loginform(request):
         "login.html",
         {
             "form": form,
-            "next_url": request.GET.get("next")
+            "next": request.GET.get("next")
         },
     )
 

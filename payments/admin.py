@@ -83,13 +83,13 @@ class PaymentsAdmin(admin.ModelAdmin):
     actions = [refund_the_payment]
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_superuser
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_superuser
+        return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_superuser
+        return False
 
     def has_view_permission(self, request, obj=None):
         return request.user.is_staff

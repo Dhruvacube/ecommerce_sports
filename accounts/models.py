@@ -80,6 +80,7 @@ class User(AbstractUser):
                                 max_length=6,
                                 validators=[validate_zip], null=True, db_index=True)
     university_name = models.CharField(_("University or College Name"),max_length=250, db_index=True)
+    registration_no = models.PositiveBigIntegerField(_("Registration No"), db_index=True, null=True)
 
     class Meta:
         unique_together = ("email",)
