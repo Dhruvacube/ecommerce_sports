@@ -42,7 +42,8 @@ def product(request, product_id: str):
         {
             "product": product,
             "testimonials": Testimonial.objects.filter(product=product).all(),
-            "cart_added": True if Cart.objects.filter(user=request.user).get().order.products.count() > 0 else False
+            "cart_added": True if Cart.objects.filter(user=request.user).get().order.products.count() > 0 else False,
+            "products_images": list(product.products_carousel_images.iterator()) + [product.image]
         }
     )
 

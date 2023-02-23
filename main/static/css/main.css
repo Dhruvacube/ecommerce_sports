@@ -1,5 +1,6 @@
 h1 {
-    color: rgb(10, 11, 67);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: whitesmoke;
     text-align: center;
     padding: 10px 10px;
     font-size: 50px !important;
@@ -11,9 +12,13 @@ h1 {
 
 body {
     font-family: 'Jost*';
-    background-color: #EEEEEE;
+    background-color: black;
 }
 
+
+nav {
+    font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
 
 li {
     font-size: 20px;

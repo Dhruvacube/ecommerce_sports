@@ -19,7 +19,7 @@
     <div class="container my-12 mx-auto px-4 md:px-12">
         <div class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
         {% for j in products %}
-        <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
+        <div class="w-full max-w-sm bg-white rounded-lg shadow-xl shadow-slate-400 dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
             <center>
                 <a href="{% url 'about_product' j.product_id %}">
                 <img class="p-8 rounded-t-lg" src="{% thumbnail j.image 325x325 crop %}" alt="product image">

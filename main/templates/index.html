@@ -3,7 +3,7 @@
 {% block content %}
 {% if header %}
 <center>
-<div id="animation-carousel" class="relative w-1/2" data-carousel="slide" style="z-index: -1;">
+<div id="animation-carousel" class="relative" data-carousel="slide" style="z-index: -1;">
     <br/>
     <!-- Carousel wrapper -->
     <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
@@ -39,10 +39,10 @@
 <div class="{{category|lower}}">
     <h1 class="h1 uppercase"><a href="{% url 'category_details' category %}">{{category}}</a></h1>
     <hr/>
-    <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="container my-12 mx-auto px-5 md:px-12">
         <div class="flex flex-wrap justify-center  overflow-auto	">
         {% for j in products %}
-        <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
+        <div class="w-full max-w-sm bg-white rounded-lg shadow-xl shadow-slate-400 dark:bg-gray-800 dark:border-gray-700 mx-3 my-3">
             <center>
                 <a href="{% url 'about_product' j.product_id %}">
                 <img class="p-8 rounded-t-lg" src="{% thumbnail j.image 325x325 crop %}" alt="product image">

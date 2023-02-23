@@ -21,7 +21,7 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
-    
+
 class Product(models.Model):
     product_id = models.CharField(default=random_id, max_length=10, primary_key=True, db_index=True)
     name = models.CharField(max_length=150, help_text=_("Enter the name of the product"), db_index=True)
@@ -32,6 +32,7 @@ class Product(models.Model):
     out_of_stock = models.BooleanField(default=False)
     quantity_available = models.PositiveIntegerField(default=1, help_text=_("Enter the quantity of the product available"), db_index=True)
     carousel_entry = models.BooleanField(default=False, help_text=_("Check if you want to add this product to the carousel"), db_index=True)
+    products_carousel_images = models.ManyToManyField("filer.Image", related_name="carousel_images", symmetrical=False, blank=True, db_index=True)
     def __str__(self):
         return self.name
 
